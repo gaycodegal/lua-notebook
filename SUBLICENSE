@@ -1,1 +1,5 @@
 third-party/lua/lua/ MIT https://www.lua.org/license.html
+	Lua is the scripting language for executing notebook scripts
+Emscripten MIT https://github.com/emscripten-core/emscripten/blob/main/
+	Emscripten, which provides things like the IDBFS file
+	and other linking code from WASM to JavaScript is MIT licensed.
