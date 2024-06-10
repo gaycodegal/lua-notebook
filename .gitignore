@@ -1,0 +1,17 @@
+# emacs
+*~
+\#*\#
+.\#*
+
+# wasm
+*.o
+
+# our project
+
+html/lua.js
+html/lua.wasm
+
+
+# lua logo
+lua-logo-nolabel.ps
+lua-logo-nolabel-full.png

@@ -1,0 +1,6 @@
+[submodule "third-party/lua/lua"]
+	path = third-party/lua/lua
+	url = https://github.com/lua/lua.git
+[submodule "src/lua-binding/third-party/lua/lua"]
+	path = src/lua-binding/third-party/lua/lua
+	url = https://github.com/lua/lua.git
