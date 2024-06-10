@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport"  content="width=device-width initial-scale=1.0">
+    <meta name="description" content="A Lua notebook system">
+    <meta name="theme-color" content="#333">
+    <title>Lua Notebook</title>
+    <!--link rel="apple-touch-icon" href="html/icons/lua-logo-192.webp"/-->
+    <link rel="manifest" href="manifest.json">
+    <!--link rel="icon" type="image/x-icon" href="html/icons/lua-logo-192.webp"-->
+    <link rel="stylesheet" href="./style.css"></link>
+    <script src="./dark-mode.js"></script>
+  </head>
+  <body class="dark">
+    <nav>
+      <details>
+				<summary>Navigation Links</summary>
+				nav would go here
+      </details>
+    </nav>
+    <main>
+<h1>Lua Notebook</h1>
+<pre id="output"></pre>
+<input
+  id="input"
+  type="text"
+  autocorrect="off"
+  autocapitalize="none"
+  ></input>
+<label
+  style="display: block"
+  for="input"
+  >
+  input when required.
+</label>
+<script src="./run-lua.js"></script>
+<script src="./lua.js"></script>
+
+<!--button onclick="FS.syncfs(false, ()=>{});">Persist File Changes</button-->
+
+    </main>
+    <footer>
+      <a href="./license.html">license</a>
+      <button onclick="toggleDarkmode()">toggle darkmode</button>
+    </footer>
+  </body>
+</html>
