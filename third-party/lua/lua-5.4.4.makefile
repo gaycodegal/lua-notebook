@@ -22,7 +22,7 @@ EMFLAGS=-lembind -sALLOW_MEMORY_GROWTH=1 -sASYNCIFY -sINVOKE_RUN=0 -s EXPORTED_R
 wasm: 
 	make -C $(LUA_DIR) a $(LUA_EXTRA)
 #	make -C $(LUA_DIR) lua.o $(LUA_EXTRA)
-	$(CC) $(SYSCFLAGS) $(INC) $(SYSLIBS) $(LUA_DIR)liblua.a $(LUA_BINDING_CC) -o $(OUT_FILE) $(EMFLAGS)
+	$(CC) $(SYSCFLAGS) -std=c++20 $(INC) $(SYSLIBS) $(LUA_DIR)liblua.a $(LUA_BINDING_CC) -o $(OUT_FILE) $(EMFLAGS)
 clean:
 	make -C $(LUA_DIR) clean
 

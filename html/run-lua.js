@@ -15,10 +15,12 @@ function print(s) {
 
 const inputElement = document.getElementById("input");
 inputElement.addEventListener("keypress", function(e){
-		if(e.key == "Enter" && !e.shiftKey) {
-				const result = Module.exec_lua(`return ${inputElement.value}`);
+		if(e.key == "Enter" && e.shiftKey) {
+				let toEval = `return ${inputElement.value}`;
+				const result = Module.exec_lua(toEval);
 				console.log(`result is ${result}`);
 				print(result);
+				e.preventDefault();
 		}
 });
 

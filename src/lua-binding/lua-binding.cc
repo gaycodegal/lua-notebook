@@ -12,6 +12,12 @@ extern "C" {
 #include <emscripten.h>
 #include <emscripten/bind.h>
 
+enum LuaStatus {
+  LOAD_FAILURE,
+  CALL_FAILURE,
+  SUCCESS
+};
+
 
 int eprintf(const char *format, ...) {
   va_list args;
@@ -27,21 +33,46 @@ int eprintf(const char *format, ...) {
   return size;
 }
 
-int loadLuaString(lua_State *L, const char *file, int nresults) {
+LuaStatus loadLuaString(lua_State *L, const char *file, int nresults) {
   if (file == NULL) {
-    return 0;
+    return LOAD_FAILURE;
   }
   if (luaL_loadstring(L, file)) {
     //printf("failed to load with error:%s\n", lua_tostring(L, -1));
-    delete[] file;
-    return 0;
+    return LOAD_FAILURE;
   }
   if (lua_pcall(L, 0, nresults, 0)) {
     /* PRIMING RUN. FORGET THIS AND YOU'RE TOAST */
     //printf("failed to call with error:%s\n", lua_tostring(L, -1));
-    return 0;
+    return CALL_FAILURE;
   }
-  return 1;
+  return SUCCESS;
+}
+
+
+/**
+	 it turns out that the lua repl
+	 actually tries both "return ..." as well
+	 as the default string itself "..." for execution
+	 and picks whichever actually succeeds
+ */
+bool loadLuaStringReturnPrefixed(lua_State *L, const std::string& lua_src, int nresults) {
+	if (!lua_src.starts_with("return ")) {
+		lua_pushliteral(L, "error string does not begin with return");
+		return false;
+	}
+
+	LuaStatus evalStatus = loadLuaString(L, lua_src.c_str(), 1);
+	if (evalStatus != LOAD_FAILURE) {
+		return evalStatus == SUCCESS;
+	}
+	lua_settop(L, 0);
+	size_t size = lua_src.size();
+
+	// "return " is length 7
+	const char * subStringDanger = lua_src.c_str() + 7;
+
+	return loadLuaString(L, subStringDanger, 1) == SUCCESS;
 }
 
 #define LUA_STACK_TOP -1
@@ -53,7 +84,7 @@ std::string exec_lua(std::string lua_src) {
 	L = luaL_newstate();
 	//luaL_openlibs(L);
 
-	loadLuaString(L, lua_src.c_str(), 1);
+	loadLuaStringReturnPrefixed(L, lua_src, 1);
 	size_t resultSize = 0;
 	const char * result = lua_tolstring(L, LUA_STACK_TOP, &resultSize);
 	
