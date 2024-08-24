@@ -115,6 +115,17 @@ a {
     color: var(--color-output-fg);
 }
 
+.textarea-focuser {
+		float:left;
+		box-sizing: border-box;
+		width:100%;
+		background: transparent;
+		border-color: transparent;
+		padding: 0px;
+		margin: 0px;
+		margin-bottom: 8px;
+}
+
 .input {
 		border-color: var(--color-output-border);
     background: var(--color-output-bg);
@@ -122,7 +133,6 @@ a {
 		float:left;
 		box-sizing: border-box;
 		width:100%;
-		margin-bottom: 8px;
 		min-height: 200px;
 }
 
