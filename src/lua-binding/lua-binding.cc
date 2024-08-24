@@ -84,9 +84,9 @@ std::string exec_lua(std::string lua_src) {
 	L = luaL_newstate();
 	//luaL_openlibs(L);
 
-	loadLuaStringReturnPrefixed(L, lua_src, 1);
+	bool ok = loadLuaStringReturnPrefixed(L, lua_src, 1);
 	size_t resultSize = 0;
-	const char * result = lua_tolstring(L, LUA_STACK_TOP, &resultSize);
+	const char * result = luaL_tolstring(L, LUA_STACK_TOP, &resultSize);
 	
 	std::string resultCopy(result, resultSize);
   lua_close(L);

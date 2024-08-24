@@ -23,6 +23,22 @@ body {
     display: none;
 }
 
+.spacer {
+		float:left;
+		box-sizing: border-box;
+		width:100%;
+}
+
+.notebook-name {
+		padding: 10px;
+		border-radius: 20px;
+		float:left;
+		display:block;
+    background: var(--color-output-bg);
+    color: var(--color-output-fg);
+		margin-bottom: 0px;
+}
+
 body{
     padding: 0px;
     margin: 0px;
@@ -92,14 +108,24 @@ a {
     color: var(--color-link-fg);
 }
 
-#output {
+.output {
+		padding: 20px;
+		border-radius: 20px;
     background: var(--color-output-bg);
     color: var(--color-output-fg);
 }
 
-#input {
+.input {
     background: var(--color-output-bg);
     color: var(--color-output-fg);
+		float:left;
+		box-sizing: border-box;
+		width:100%;
+		margin-bottom: 8px;
+}
+
+.editor-run {
+		display:block;
 }
 
 .error {
