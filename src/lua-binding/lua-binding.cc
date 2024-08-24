@@ -7,6 +7,10 @@ extern "C" {
 #include <lua.h>
 #include <lualib.h>
 };
+#define LUA_STACK_TOP -1
+
+#include <string>
+#include <vector>
 
 
 #include <emscripten.h>
@@ -34,6 +38,20 @@ int error_print(const char *format, ...) {
   return size;
 }
 
+int markdown_print_id(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  size_t size = vsnprintf(NULL, 0, format, args);
+  va_end(args);
+  char *output = (char *)malloc(size + 1);
+  vsprintf(output, format, args);
+  EM_ASM({ markdown_print_id(UTF8ToString($0), UTF8ToString($1)); }, output_id, output);
+
+  free(output);
+
+  return size;
+}
+
 int eprintf(const char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -46,6 +64,15 @@ int eprintf(const char *format, ...) {
   free(output);
 
   return size;
+}
+
+int l_markdown_print(lua_State* L)
+{
+	size_t resultSize;
+	const char * result = luaL_tolstring(L, 1, &resultSize);
+	markdown_print_id("%s", result);
+
+  return 0;
 }
 
 LuaStatus loadLuaString(lua_State *L, const char *file, int nresults) {
@@ -90,15 +117,12 @@ bool loadLuaStringReturnPrefixed(lua_State *L, const std::string& lua_src, int n
 	return loadLuaString(L, subStringDanger, 1) == SUCCESS;
 }
 
-#define LUA_STACK_TOP -1
-
-#include <string>
-#include <vector>
 void exec_lua(std::string lua_src, std::string to_output_id) {
 	const char* to_output_id_c = to_output_id.c_str();
 	output_id = to_output_id_c;
 	lua_State *L;
 	L = luaL_newstate();
+	lua_register(L, "markdown_print", &l_markdown_print);
 	//luaL_openlibs(L);
 
 	bool ok = loadLuaStringReturnPrefixed(L, lua_src, 1);
