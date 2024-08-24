@@ -32,13 +32,13 @@ int loadLuaString(lua_State *L, const char *file, int nresults) {
     return 0;
   }
   if (luaL_loadstring(L, file)) {
-    printf("failed to load with error:%s\n", lua_tostring(L, -1));
+    //printf("failed to load with error:%s\n", lua_tostring(L, -1));
     delete[] file;
     return 0;
   }
   if (lua_pcall(L, 0, nresults, 0)) {
     /* PRIMING RUN. FORGET THIS AND YOU'RE TOAST */
-    printf("failed to call with error:%s\n", lua_tostring(L, -1));
+    //printf("failed to call with error:%s\n", lua_tostring(L, -1));
     return 0;
   }
   return 1;

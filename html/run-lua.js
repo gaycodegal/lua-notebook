@@ -15,8 +15,10 @@ function print(s) {
 
 const inputElement = document.getElementById("input");
 inputElement.addEventListener("keypress", function(e){
-		if(e.keyCode == 13) {
-				print(Module.exec_lua(`return ${inputElement.value}`));
+		if(e.key == "Enter" && !e.shiftKey) {
+				const result = Module.exec_lua(`return ${inputElement.value}`);
+				console.log(`result is ${result}`);
+				print(result);
 		}
 });
 
