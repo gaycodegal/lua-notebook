@@ -59,6 +59,7 @@ function standardEditor(editor) {
 		}
 
 		inputElement.addEventListener("keydown", function(e){
+				// there is a bug if tab addition/deletion is inside selected range
 				if (e.key == 'Tab') {
 						if (e.shiftKey) {
 								e.preventDefault();
