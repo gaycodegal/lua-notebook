@@ -2,56 +2,56 @@ body {
 		--color-main-bg: #383f4f;
 		--color-main-fg: #fff;
 		--color-link-visited-bg: var(--color-main-bg);
-		--color-link-visited-fg: orange;
+		--color-link-visited-fg: #FFA500;
 		--color-link-bg: var(--color-main-bg);
-		--color-link-fg: #9999FF;
+		--color-link-fg: #A3A3FF;
 		--color-output-border: #1f2631;
 		--color-output-bg: #2b323e;
 		--color-output-fg: #fff;
 		--color-error-bg: var(--color-output-bg);
-		--color-error-fg: #FF7A7A; /*5:1 on #333*/
+		--color-error-fg: #FF7A7A;
 }
 
 body.light {
 		--color-main-bg: #E8E7E1;
 		--color-main-fg: #02004f;
 		--color-link-visited-bg: var(--color-main-bg);
-		--color-link-visited-fg: purple;
+		--color-link-visited-fg: #800080;
 		--color-link-bg: var(--color-main-bg);
-		--color-link-fg: blue;
+		--color-link-fg: #00F;
 		--color-output-border: #fff5eb;
 		--color-output-bg: #FFFEF5;
 		--color-output-fg: #02004f;
 		--color-error-bg: var(--color-output-bg);
-		--color-error-fg: #E00000; /*5:1 on #333*/
+		--color-error-fg: #E00000;
 }
 
 body.dark {
 		--color-main-bg: #383f4f;
 		--color-main-fg: #fff;
 		--color-link-visited-bg: var(--color-main-bg);
-		--color-link-visited-fg: orange;
+		--color-link-visited-fg: #FFA500;
 		--color-link-bg: var(--color-main-bg);
-		--color-link-fg: #9999FF;
+		--color-link-fg: #A3A3FF;
 		--color-output-border: #1f2631;
 		--color-output-bg: #2b323e;
 		--color-output-fg: #fff;
 		--color-error-bg: var(--color-output-bg);
-		--color-error-fg: #FF7A7A; /*5:1 on #333*/
+		--color-error-fg: #FF7A7A;
 }
 
 @media (prefers-color-scheme: light) {
 		body {
-				--color-main-bg: #E8E7E1;
-				--color-main-fg: #000;
-				--color-link-visited-bg: var(--color-main-bg);
-				--color-link-visited-fg: purple;
-				--color-link-bg: var(--color-main-bg);
-				--color-link-fg: blue;
-				--color-output-border: #fff5eb;
-				--color-output-bg: #FFFEF5;
-				--color-output-fg: #000;
-				--color-error-bg: var(--color-output-bg);
-				--color-error-fg: #E00000; /*5:1 on #333*/
+		--color-main-bg: #E8E7E1;
+		--color-main-fg: #02004f;
+		--color-link-visited-bg: var(--color-main-bg);
+		--color-link-visited-fg: #800080;
+		--color-link-bg: var(--color-main-bg);
+		--color-link-fg: #00F;
+		--color-output-border: #fff5eb;
+		--color-output-bg: #FFFEF5;
+		--color-output-fg: #02004f;
+		--color-error-bg: var(--color-output-bg);
+		--color-error-fg: #E00000;
 		}
 }

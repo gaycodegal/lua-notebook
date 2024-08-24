@@ -1,0 +1,17 @@
+body {
+		{{dark}}
+}
+
+body.light {
+		{{light}}
+}
+
+body.dark {
+		{{dark}}
+}
+
+@media (prefers-color-scheme: light) {
+		body {
+		{{light}}
+		}
+}
