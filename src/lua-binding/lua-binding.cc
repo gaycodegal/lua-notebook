@@ -18,6 +18,21 @@ enum LuaStatus {
   SUCCESS
 };
 
+const char * output_id = NULL;
+
+int error_print(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  size_t size = vsnprintf(NULL, 0, format, args);
+  va_end(args);
+  char *output = (char *)malloc(size + 1);
+  vsprintf(output, format, args);
+  EM_ASM({ error_print_id(UTF8ToString($0), UTF8ToString($1)); }, output_id, output);
+
+  free(output);
+
+  return size;
+}
 
 int eprintf(const char *format, ...) {
   va_list args;
@@ -26,7 +41,7 @@ int eprintf(const char *format, ...) {
   va_end(args);
   char *output = (char *)malloc(size + 1);
   vsprintf(output, format, args);
-  EM_ASM({ print(UTF8ToString($0)); }, output);
+  EM_ASM({ print_id(UTF8ToString($0), UTF8ToString($1)); }, output_id, output);
 
   free(output);
 
@@ -79,7 +94,9 @@ bool loadLuaStringReturnPrefixed(lua_State *L, const std::string& lua_src, int n
 
 #include <string>
 #include <vector>
-std::string exec_lua(std::string lua_src) {
+void exec_lua(std::string lua_src, std::string to_output_id) {
+	const char* to_output_id_c = to_output_id.c_str();
+	output_id = to_output_id_c;
 	lua_State *L;
 	L = luaL_newstate();
 	//luaL_openlibs(L);
@@ -87,10 +104,16 @@ std::string exec_lua(std::string lua_src) {
 	bool ok = loadLuaStringReturnPrefixed(L, lua_src, 1);
 	size_t resultSize = 0;
 	const char * result = luaL_tolstring(L, LUA_STACK_TOP, &resultSize);
-	
-	std::string resultCopy(result, resultSize);
+
+	if (ok) {
+		printf("%s", result);
+	} else {
+		error_print("%s", result);
+	}
+
   lua_close(L);
-	return resultCopy;
+	output_id = NULL;
+	return;
 }
 
 EMSCRIPTEN_BINDINGS(my_module) {
