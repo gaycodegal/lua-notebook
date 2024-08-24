@@ -27,14 +27,39 @@ int eprintf(const char *format, ...) {
   return size;
 }
 
+int loadLuaString(lua_State *L, const char *file, int nresults) {
+  if (file == NULL) {
+    return 0;
+  }
+  if (luaL_loadstring(L, file)) {
+    printf("failed to load with error:%s\n", lua_tostring(L, -1));
+    delete[] file;
+    return 0;
+  }
+  if (lua_pcall(L, 0, nresults, 0)) {
+    /* PRIMING RUN. FORGET THIS AND YOU'RE TOAST */
+    printf("failed to call with error:%s\n", lua_tostring(L, -1));
+    return 0;
+  }
+  return 1;
+}
 
+#define LUA_STACK_TOP -1
 
 #include <string>
 #include <vector>
-int exec_lua(std::string lua_src) {
+std::string exec_lua(std::string lua_src) {
 	lua_State *L;
+	L = luaL_newstate();
+	//luaL_openlibs(L);
 
-	return 0;
+	loadLuaString(L, lua_src.c_str(), 1);
+	size_t resultSize = 0;
+	const char * result = lua_tolstring(L, LUA_STACK_TOP, &resultSize);
+	
+	std::string resultCopy(result, resultSize);
+  lua_close(L);
+	return resultCopy;
 }
 
 EMSCRIPTEN_BINDINGS(my_module) {
