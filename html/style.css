@@ -1,4 +1,62 @@
 
+body {
+		--color-main-bg: #333;
+		--color-main-fg: white;
+		--color-link-visited-bg: var(--color-main-bg);
+		--color-link-visited-fg: orange;
+		--color-link-bg: var(--color-main-bg);
+		--color-link-fg: #9999FF;
+		--color-output-bg: black;
+		--color-output-fg: white;
+		--color-error-bg: var(--color-main-bg);
+		--color-error-fg: #FF7A7A; /*5:1 on #333*/
+}
+
+body.light {
+		--color-main-bg: #FFF;
+		--color-main-fg: #000;
+		--color-link-visited-bg: var(--color-main-bg);
+		--color-link-visited-fg: purple;
+		--color-link-bg: var(--color-main-bg);
+		--color-link-fg: blue;
+		--color-output-bg: #FFF;
+		--color-output-fg: #000;
+		--color-error-bg: var(--color-main-bg);
+		--color-error-fg: #E00000; /*5:1 on #333*/
+}
+body.dark {
+		--color-main-bg: #333;
+		--color-main-fg: white;
+		--color-link-visited-bg: var(--color-main-bg);
+		--color-link-visited-fg: orange;
+		--color-link-bg: var(--color-main-bg);
+		--color-link-fg: #9999FF;
+		--color-output-bg: black;
+		--color-output-fg: white;
+		--color-error-bg: var(--color-main-bg);
+		--color-error-fg: #FF7A7A; /*5:1 on #333*/
+}
+
+@media (prefers-color-scheme: light) {
+		body {
+				--color-main-bg: #FFF;
+				--color-main-fg: #000;
+				--color-link-visited-bg: var(--color-main-bg);
+				--color-link-visited-fg: purple;
+				--color-link-bg: var(--color-main-bg);
+				--color-link-fg: blue;
+				--color-output-bg: #FFF;
+				--color-output-fg: #000;
+				--color-error-bg: var(--color-main-bg);
+				--color-error-fg: #E00000; /*5:1 on #333*/
+		}
+}
+
+body {
+    background: var(--color-main-bg);
+    color: var(--color-main-fg);
+}
+
 .external-link {
     background-color: black;
     width: 1.5em;
@@ -12,10 +70,6 @@
     mask-image: url('icons/open_in_new_FILL0_wght400_GRAD0_opsz48.svg');
     mask-size: 1.5em 1.5em;
     mask-repeat: no-repeat;
-}
-
-.error {
-    color: #E00000; /*5.03:1 on white*/
 }
 
 .hide-wavefile-js{
@@ -75,35 +129,34 @@ li {
     }
 }
 
-/* darkmode */
 
-.dark {
-    background: #333;
-    color: white;
+.external-link {
+    background: var(--color-main-bg);
+    color: var(--color-main-fg);
 }
 
-.dark .external-link {
-    background-color: white;
+a:visited {
+    background: var(--color-link-visited-bg);
+    color: var(--color-link-visited-fg);
 }
 
-.dark a:visited {
-    color: orange;
+a {
+    background: var(--color-link-bg);
+    color: var(--color-link-fg);
 }
 
-.dark a {
-    color: #9999FF;
+#output {
+    background: var(--color-output-bg);
+    color: var(--color-output-fg);
 }
 
-.dark #output {
-    background:black;
-    color: white;
+#input {
+    background: var(--color-output-bg);
+    color: var(--color-output-fg);
 }
 
-.dark #input {
-    background:black;
-    color: white;
+.error {
+    background: var(--color-error-bg);
+    color: var(--color-error-fg);
 }
 
-.dark .error {
-    color:#FF7A7A; /*5:1 on #333*/
-}
