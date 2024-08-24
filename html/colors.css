@@ -1,0 +1,53 @@
+body {
+		--color-main-bg: #333;
+		--color-main-fg: white;
+		--color-link-visited-bg: var(--color-main-bg);
+		--color-link-visited-fg: orange;
+		--color-link-bg: var(--color-main-bg);
+		--color-link-fg: #9999FF;
+		--color-output-bg: black;
+		--color-output-fg: white;
+		--color-error-bg: var(--color-main-bg);
+		--color-error-fg: #FF7A7A; /*5:1 on #333*/
+}
+
+body.light {
+		--color-main-bg: #FFF;
+		--color-main-fg: #000;
+		--color-link-visited-bg: var(--color-main-bg);
+		--color-link-visited-fg: purple;
+		--color-link-bg: var(--color-main-bg);
+		--color-link-fg: blue;
+		--color-output-bg: #FFF;
+		--color-output-fg: #000;
+		--color-error-bg: var(--color-main-bg);
+		--color-error-fg: #E00000; /*5:1 on #333*/
+}
+
+body.dark {
+		--color-main-bg: #333;
+		--color-main-fg: white;
+		--color-link-visited-bg: var(--color-main-bg);
+		--color-link-visited-fg: orange;
+		--color-link-bg: var(--color-main-bg);
+		--color-link-fg: #9999FF;
+		--color-output-bg: black;
+		--color-output-fg: white;
+		--color-error-bg: var(--color-main-bg);
+		--color-error-fg: #FF7A7A; /*5:1 on #333*/
+}
+
+@media (prefers-color-scheme: light) {
+		body {
+				--color-main-bg: #FFF;
+				--color-main-fg: #000;
+				--color-link-visited-bg: var(--color-main-bg);
+				--color-link-visited-fg: purple;
+				--color-link-bg: var(--color-main-bg);
+				--color-link-fg: blue;
+				--color-output-bg: #FFF;
+				--color-output-fg: #000;
+				--color-error-bg: var(--color-main-bg);
+				--color-error-fg: #E00000; /*5:1 on #333*/
+		}
+}
