@@ -8,6 +8,10 @@ return {
 	 {"--color-output-border", "#1f2631"},
 	 {"--color-output-bg", "#2b323e"},
 	 {"--color-output-fg", "#fff"},
+	 {"--color-link-output-visited-bg", "--color-output-bg"},
+	 {"--color-link-output-visited-fg", "--color-link-visited-fg"},
+	 {"--color-link-output-bg", "--color-output-bg"},
+	 {"--color-link-output-fg", "--color-link-fg"},
 	 {"--color-error-bg", "--color-output-bg"},
 	 {"--color-error-fg", "#FF7A7A"},
 }

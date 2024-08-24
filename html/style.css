@@ -108,6 +108,16 @@ a {
     color: var(--color-link-fg);
 }
 
+.output a:visited {
+    background: var(--color-link-output-visited-bg);
+    color: var(--color-link-output-visited-fg);
+}
+
+.output a {
+    background: var(--color-link-output-bg);
+    color: var(--color-link-output-fg);
+}
+
 .output {
 		padding: 20px;
 		border-radius: 20px;

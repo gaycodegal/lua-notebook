@@ -83,6 +83,11 @@ function check_colors(name, colors)
 						full_check = full_check and check
 						if not check then
 							 print(key, other, check)
+							 if dict[other] == nil or color == nil then
+									print("nil color")
+							 else
+									print(color, dict[other], contrast_of(color, dict[other]))
+							 end
 						end
 						checked[key] = true
 						checked[other] = true
@@ -95,11 +100,12 @@ function check_colors(name, colors)
 	 else
 			print("fail", name)
 	 end
+	 return full_check
 end
 
 
-check_colors("dark", dark)
-check_colors("light", light)
+local dark_pass = check_colors("dark", dark)
+local light_pass = check_colors("light", light)
 
 function convert_to_css(colors)
 	 local css = {}
@@ -117,4 +123,6 @@ local args = {
 	 light = convert_to_css(light),
 }
 
-replaceFile("./colors.template.css", "../colors.css", args)
+if dark_pass and light_pass then
+	 replaceFile("./colors.template.css", "../colors.css", args)
+end
