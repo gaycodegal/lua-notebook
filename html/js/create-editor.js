@@ -1,4 +1,6 @@
-function linkStandardEditor(editor) {
+function linkStandardEditor(editorObj) {
+		const editor = editorObj.editor;
+		const outputId = editorObj.outputId;
 		const inputElement = editor.find(".input")[0];
 		console.log(inputElement);
 		const buttonRun = editor.find(".editor-run")[0];
@@ -8,7 +10,7 @@ function linkStandardEditor(editor) {
 		function eval(e) {
 				let toEval = `return ${inputElement.value}`;
 				output.innerHTML = "";
-				const result = Module.exec_lua(toEval, "output");
+				const result = Module.exec_lua(toEval, outputId);
 				//print(result, output);
 				e.preventDefault();
 		}
@@ -64,11 +66,15 @@ function linkStandardEditor(editor) {
 				eval(e);
 		});		
 }
-
-function createSingleEditor(parent) {
-		const id = `input-${Math.random()}`;
+function createSingleEditor() {
+		const editor = makeSingleEditorHtml($("#editors-section"));
+		linkStandardEditor(editor);
+}
+function makeSingleEditorHtml(parent) {
+		const inputId = `input-${Math.random()}`;
+		const outputId = `output-${Math.random()}`;
 		const editor = $(`<section class="standard-editor">
-				<pre class="output"></pre>
+				<pre class="output ${outputId}"></pre>
 				<button class="textarea-focuser">
 					<textarea
 						tabindex="-1"
@@ -79,22 +85,21 @@ function createSingleEditor(parent) {
 						autocapitalize="none"
 						></textarea>
 				</button>
-				<button id="${id}" class="editor-run">run</button>
+				<button id="${inputId}" class="editor-run">run</button>
 				<label
 					style="display: block"
-					for="${id}"
+					for="${inputId}"
 					>
 					input when required.
 				</label>
 			</section>`);
 		parent.append(editor);
-		return editor;
+		return {editor, outputId};
 }
 
 
 function editorOnLoad() {
-		const editor = createSingleEditor($("#editors-section"));
-		linkStandardEditor(editor);
+		createSingleEditor();
 }
 
 window.addEventListener("load", editorOnLoad);
