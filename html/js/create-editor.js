@@ -1,19 +1,10 @@
-function linkStandardEditor(editorObj) {
+function linkStandardEditor(editorObj, config) {
 		const editor = editorObj.editor;
 		const outputId = editorObj.outputId;
 		const inputElement = editor.find(".input")[0];
-		console.log(inputElement);
 		const buttonRun = editor.find(".editor-run")[0];
 		const buttonFocusInput = editor.find(".textarea-focuser")[0];
 		const output = editor.find(".output")[0];
-
-		function eval(e) {
-				let toEval = `return ${inputElement.value}`;
-				output.innerHTML = "";
-				const result = Module.exec_lua(toEval, outputId);
-				//print(result, output);
-				e.preventDefault();
-		}
 
 		function indexOfNewline(value, start) {
 				return Math.min(value.length, Math.max(0, value.lastIndexOf("\n", start - 1) + 1));
@@ -56,24 +47,59 @@ function linkStandardEditor(editorObj) {
 		});
 		inputElement.addEventListener("keypress", function(e){
 				if(e.key == "Enter" && e.shiftKey) {
-						eval(e);
+						config.action(e);
+						e.preventDefault();
 				}
 		});
 		buttonFocusInput.addEventListener("click", function(e){
 				inputElement.focus();
 		});
 		buttonRun.addEventListener("click", function(e){
-				eval(e);
+				config.action(e);
+				e.preventDefault();
 		});		
 }
-function createSingleEditor() {
-		const editor = makeSingleEditorHtml($("#editors-section"));
-		linkStandardEditor(editor);
+
+function linkLuaEditor(editorObj) {
+		const outputId = editorObj.outputId;
+		const output = editorObj.editor.find(".output")[0];
+		const inputElement = editorObj.editor.find(".input")[0];
+		function eval(e) {
+				let toEval = `return ${inputElement.value}`;
+				output.innerHTML = "";
+				const result = Module.exec_lua(toEval, outputId);
+				//print(result, output);
+		}
+
+		linkStandardEditor(editorObj, {action: eval});
 }
-function makeSingleEditorHtml(parent) {
+
+function linkMarkEditor(editorObj) {
+		const outputId = editorObj.outputId;
+		const output = editorObj.editor.find(".output")[0];
+		const inputElement = editorObj.editor.find(".input")[0];
+		function displayMark(e) {
+				output.innerHTML = mark_instance.render(inputElement.value);
+		}
+
+		linkStandardEditor(editorObj, {action: displayMark});
+}
+
+function createSingleMarkEditor() {
+		const editor = makeSingleEditorHtml($("#editors-section"), "markdown");
+		linkMarkEditor(editor);
+}
+
+function createSingleLuaEditor() {
+		const editor = makeSingleEditorHtml($("#editors-section"), "lua");
+		linkLuaEditor(editor);
+}
+
+function makeSingleEditorHtml(parent, name="unnamed") {
 		const inputId = `input-${Math.random()}`;
 		const outputId = `output-${Math.random()}`;
 		const editor = $(`<section class="standard-editor">
+				<div>${name}</div>
 				<pre class="output ${outputId}"></pre>
 				<button class="textarea-focuser">
 					<textarea
@@ -98,8 +124,11 @@ function makeSingleEditorHtml(parent) {
 }
 
 
+
+
 function editorOnLoad() {
-		createSingleEditor();
+		createSingleLuaEditor();
+		createSingleMarkEditor();
 }
 
 window.addEventListener("load", editorOnLoad);
