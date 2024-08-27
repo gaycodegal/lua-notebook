@@ -14,6 +14,10 @@
     <script src="./dark-mode.js"></script>
 		<script src="./third-party/markdown-it@14.1.0/markdown-it.min.js"></script>
 		<script src="./markdown-it-inputs/input-maker.js"></script>
+		<script src="./js/common-html.js"></script>
+		<script src="./js/global-lua.js"></script>
+		<script src="./js/create-editor.js"></script>
+		<script src="./third-party/jquery/jquery-3.7.1.min.js"></script>
   </head>
   <body class="dark">
     <nav>
@@ -25,31 +29,8 @@
     <main>
 			<h1 class="notebook-name">Lua Notebook</h1>
 			<div class="spacer">
-			<section class="standard-editor">
-				<pre class="output"></pre>
-				<button class="textarea-focuser">
-					<textarea
-						tabindex="-1"
-						class="input"
-						type="text"
-						autocorrect="off"
-						spellcheck="false"
-						autocapitalize="none"
-						></textarea>
-				</button>
-				<button class="editor-run">run</button>
-			</section>
-<label
-  style="display: block"
-  for="input"
-  >
-  input when required.
-</label>
-<script src="./run-lua.js"></script>
-<script src="./lua.js"></script>
-
-<!--button onclick="FS.syncfs(false, ()=>{});">Persist File Changes</button-->
-
+				<script src="./lua.js"></script>
+				<section id="editors-section"></section>
     </main>
     <footer>
       <a href="./license.html">license</a>

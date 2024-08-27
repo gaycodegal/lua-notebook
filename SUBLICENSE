@@ -7,3 +7,5 @@ third-party/markdown-it@14.1.0/markdown-it.min.js MIT https://github.com/markdow
   markdown-it converts text to markdown
 markdown-it-emoji MIT https://github.com/markdown-it/markdown-it-emoji
   used as a guide for the input plugin
+jquery MIT https://jquery.com/license/
+  dom manipulation
