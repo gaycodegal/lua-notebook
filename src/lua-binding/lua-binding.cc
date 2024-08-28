@@ -93,22 +93,22 @@ int l_require(lua_State* L)
 
 	if (result == "table") {
 		luaopen_table(L);
-		return 0;
+		return 1;
 	} else if (result == "math") {
 		luaopen_math(L);
-		return 0;
+		return 1;
 	} else if (result == "string") {
 		luaopen_string(L);
-		return 0;
+		return 1;
 	} else if (result == "utf8") {
 		luaopen_utf8(L);
-		return 0;
+		return 1;
 	} else if (result == "debug") {
 		luaopen_debug(L);
-		return 0;
+		return 1;
 	} else if (result == "os") {
 		luaopen_os(L);
-		return 0;
+		return 1;
 	}
 
 	// not found, attempt load from js
@@ -126,6 +126,8 @@ int l_require(lua_State* L)
 	free(loadedChunk);
 	// call 'load' with 1 arguments and 1 result
 	lua_call(L, 1, 1);
+	// the result of load is a function; 0 args, 1 result
+	lua_call(L, 0, 1);
 	
   return 1;
 }

@@ -16,7 +16,7 @@ INC=-I./lua -I../../src/lua-binding #-I../term -I../fake-headers
 OUT_FILE=../../html/lua.js
 SYSCFLAGS=-DLUA_USE_LINUX -include 'lua-binding.h' #-include 'lua-fixer.h' 
 SYSLIBS=-Wl,-E -ldl -lm
-LUA_EXTRA=MYCFLAGS="$(SYSCFLAGS) $(SYSINC)" MYLIBS="$(SYSLIBS)" CC="$(CC) -std=gnu99" RANLIB="emranlib" AR="emar rcu"
+LUA_EXTRA=MYCFLAGS="$(SYSCFLAGS) $(SYSINC)" MYLIBS="$(SYSLIBS)" CC="$(CC) -std=gnu99" RANLIB="emranlib" AR="emar rcu" CFLAGS="-Wall -O2 $(SYSCFLAGS) $(SYSINC) -fno-stack-protector -fno-common"
 EMFLAGS=-lembind -sALLOW_MEMORY_GROWTH=1 -sASYNCIFY -sINVOKE_RUN=0 -s EXPORTED_RUNTIME_METHODS="['lengthBytesUTF8', 'stringToUTF8', 'stringToNewUTF8']"
 
 wasm: 

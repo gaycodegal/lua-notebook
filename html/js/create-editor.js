@@ -131,5 +131,3 @@ function editorOnLoad() {
 		createSingleMarkEditor();
 }
 
-window.addEventListener("load", editorOnLoad);
-
