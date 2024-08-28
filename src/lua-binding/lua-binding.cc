@@ -78,6 +78,18 @@ int l_markdown_print(lua_State* L)
   return 0;
 }
 
+int l__print(lua_State* L)
+{
+	size_t resultSize;
+	const char * result = luaL_tolstring(L, 1, &resultSize);
+	if (result == NULL) {
+		return 0;
+	}
+	printf("%s", result);
+
+  return 0;
+}
+
 int l_require(lua_State* L)
 {
 	size_t resultSize;
@@ -174,6 +186,13 @@ bool loadLuaStringReturnPrefixed(lua_State *L, const std::string& lua_src, int n
 	return loadLuaString(L, subStringDanger, 1) == SUCCESS;
 }
 
+const std::string REALLY_SLOPPY_CODE = "\
+table = require \"table\"\n\
+string = require \"string\"\n\
+math = require \"math\"\n\
+function print(...) _print(table.concat({...}, \"\t\")) end\n\
+	";
+
 void exec_lua(std::string lua_src, std::string to_output_id) {
 	const char* to_output_id_c = to_output_id.c_str();
 	output_id = to_output_id_c;
@@ -181,19 +200,23 @@ void exec_lua(std::string lua_src, std::string to_output_id) {
 	L = luaL_newstate();
 	luaopen_base(L);
 	lua_register(L, "markdown_print", &l_markdown_print);
+	lua_register(L, "_print", &l__print);
 	lua_register(L, "require", &l_require);
+	loadLuaString(L, REALLY_SLOPPY_CODE.c_str(), 0);
+
 	//luaL_openlibs(L);
 
 	bool ok = loadLuaStringReturnPrefixed(L, lua_src, 1);
 	size_t resultSize = 0;
-	const char * result = luaL_tolstring(L, LUA_STACK_TOP, &resultSize);
+	if (!lua_isnil(L, LUA_STACK_TOP)) {
+		const char * result = luaL_tolstring(L, LUA_STACK_TOP, &resultSize);
 
-	if (ok) {
-		printf("%s", result);
-	} else {
-		error_print("%s", result);
+		if (ok) {
+			printf("%s", result);
+		} else {
+			error_print("%s", result);
+		}
 	}
-
   lua_close(L);
 	output_id = NULL;
 	return;
