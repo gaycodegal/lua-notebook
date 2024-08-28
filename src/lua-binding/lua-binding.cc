@@ -70,9 +70,64 @@ int l_markdown_print(lua_State* L)
 {
 	size_t resultSize;
 	const char * result = luaL_tolstring(L, 1, &resultSize);
+	if (result == NULL) {
+		return 0;
+	}
 	markdown_print_id("%s", result);
 
   return 0;
+}
+
+int l_require(lua_State* L)
+{
+	size_t resultSize;
+	const char * resultRaw = luaL_tolstring(L, 1, &resultSize);
+	if (resultRaw == NULL) {
+		return 0;
+	}
+	// enforce a limit on require path length
+	if (resultSize > 100) {
+		return 0;
+	}
+	std::string result(resultRaw, resultSize);
+
+	if (result == "table") {
+		luaopen_table(L);
+		return 0;
+	} else if (result == "math") {
+		luaopen_math(L);
+		return 0;
+	} else if (result == "string") {
+		luaopen_string(L);
+		return 0;
+	} else if (result == "utf8") {
+		luaopen_utf8(L);
+		return 0;
+	} else if (result == "debug") {
+		luaopen_debug(L);
+		return 0;
+	} else if (result == "os") {
+		luaopen_os(L);
+		return 0;
+	}
+
+	// not found, attempt load from js
+
+  char * loadedChunk = (char*)EM_ASM_PTR({
+			return stringToNewUTF8(js_lua_require(UTF8ToString($0)));
+		}, resultRaw);
+
+	if (loadedChunk == NULL) {
+		return 0;
+	}
+
+	lua_getglobal(L, "load");
+	lua_pushstring(L, loadedChunk);
+	free(loadedChunk);
+	// call 'load' with 1 arguments and 1 result
+	lua_call(L, 1, 1);
+	
+  return 1;
 }
 
 LuaStatus loadLuaString(lua_State *L, const char *file, int nresults) {
@@ -122,7 +177,9 @@ void exec_lua(std::string lua_src, std::string to_output_id) {
 	output_id = to_output_id_c;
 	lua_State *L;
 	L = luaL_newstate();
+	luaopen_base(L);
 	lua_register(L, "markdown_print", &l_markdown_print);
+	lua_register(L, "require", &l_require);
 	//luaL_openlibs(L);
 
 	bool ok = loadLuaStringReturnPrefixed(L, lua_src, 1);
