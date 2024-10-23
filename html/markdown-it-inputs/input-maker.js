@@ -1,5 +1,5 @@
 markdown_it_input_plugin = (function () {
-		const scannerRE = /\%(input (?:text|number) .*)\%/g;
+		const scannerRE = /\%((?:button|(?:input (?:text|number))) [^%]*)\%/g;
 
 		function input_maker_function(md) {
 				md.core.ruler.after(
@@ -7,6 +7,16 @@ markdown_it_input_plugin = (function () {
 						'inputs',
 						create_rule(md)
 				);
+		}
+
+		function create_input(metadata) {
+				const content = metadata.slice(3).join(" ");
+				return `<input type="${metadata[1]}" id="${metadata[2]}" value="${content}"></input>`;
+		}
+
+		function create_button(metadata) {
+				const content = metadata.slice(2).join(" ");
+				return `<button id="${metadata[1]}">${content ?? ""}</button>`;
 		}
 
 		function create_rule (md) {
@@ -20,10 +30,14 @@ markdown_it_input_plugin = (function () {
 										token.content = match;
 										return token;
 								} else {
-										const token = new Token('html_inline', 'input', 0);
 										const metadata = match.split(" ");
-										
-										token.content = `<input type="${metadata[1]}" id="${metadata[2]}" value="${metadata[3] ?? ""}"></input>`;
+										const token = new Token('html_inline', metadata[0], 0);
+										if (metadata[0] == "input") {
+												token.content = create_input(metadata);
+										}
+										if (metadata[0] == "button") {
+												token.content = create_button(metadata);
+										}
 										return token;
 								}
 						});

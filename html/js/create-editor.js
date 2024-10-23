@@ -81,21 +81,21 @@ function linkMarkEditor(editorObj) {
 		function displayMark(e) {
 				output.innerHTML = mark_instance.render(inputElement.value);
 		}
-
+		displayMark();
 		linkStandardEditor(editorObj, {action: displayMark});
 }
 
-function createSingleMarkEditor() {
-		const editor = makeSingleEditorHtml($("#editors-section"), "markdown");
+function createSingleMarkEditor(content) {
+		const editor = makeSingleEditorHtml($("#editors-section"), "markdown", content);
 		linkMarkEditor(editor);
 }
 
-function createSingleLuaEditor() {
-		const editor = makeSingleEditorHtml($("#editors-section"), "lua");
+function createSingleLuaEditor(content) {
+		const editor = makeSingleEditorHtml($("#editors-section"), "lua", content);
 		linkLuaEditor(editor);
 }
 
-function makeSingleEditorHtml(parent, name="unnamed") {
+function makeSingleEditorHtml(parent, name="unnamed", content) {
 		const inputId = `input-${Math.random()}`;
 		const outputId = `output-${Math.random()}`;
 		const editor = $(`<section class="standard-editor">
@@ -119,6 +119,7 @@ function makeSingleEditorHtml(parent, name="unnamed") {
 					input when required.
 				</label>
 			</section>`);
+		$(editor).find(".input").text(content);
 		parent.append(editor);
 		return {editor, outputId};
 }
@@ -126,8 +127,8 @@ function makeSingleEditorHtml(parent, name="unnamed") {
 
 
 
-function editorOnLoad() {
-		createSingleLuaEditor();
-		createSingleMarkEditor();
+function editorOnLoad(lua, mark) {
+		createSingleLuaEditor(lua);
+		createSingleMarkEditor(mark);
 }
 
